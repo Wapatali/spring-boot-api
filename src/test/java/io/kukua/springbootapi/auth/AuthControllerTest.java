@@ -1,6 +1,8 @@
 package io.kukua.springbootapi.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.kukua.springbootapi.auth.dto.AuthMapper;
+import io.kukua.springbootapi.auth.dto.request.LoginRequest;
 import io.kukua.springbootapi.auth.dto.request.RegisterRequest;
 import io.kukua.springbootapi.security.SecurityConfig;
 import io.kukua.springbootapi.user.User;
@@ -36,6 +38,9 @@ public class AuthControllerTest {
     @MockBean
     private AuthService authService;
 
+    @MockBean
+    private AuthMapper authMapper;
+
     @Test
     @DisplayName("Register with invalid body should return 422")
     public void register_withInvalidBody_shouldReturn422() throws Exception {
@@ -56,6 +61,26 @@ public class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new RegisterRequest())))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("Login with invalid credentials should return 401")
+    public void login_withInvalidCredentials_shouldReturn401() throws Exception {
+        when(authService.login(any(), any())).thenThrow(new AuthException());
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new LoginRequest())))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("Login with valid credentials should return 200")
+    public void login_withValidCredentials_shouldReturn200() throws Exception {
+        when(authService.login(any(), any())).thenReturn("");
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new LoginRequest())))
+                .andExpect(status().isOk());
     }
 
 }
