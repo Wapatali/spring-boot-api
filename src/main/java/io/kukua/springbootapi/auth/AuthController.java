@@ -1,5 +1,7 @@
 package io.kukua.springbootapi.auth;
 
+import io.kukua.springbootapi.auth.dto.AuthMapper;
+import io.kukua.springbootapi.auth.dto.request.LoginRequest;
 import io.kukua.springbootapi.auth.dto.request.RegisterRequest;
 import io.kukua.springbootapi.user.User;
 import io.kukua.springbootapi.user.dto.UserMapper;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,6 +25,7 @@ public class AuthController {
 
     private final UserMapper userMapper;
     private final AuthService authService;
+    private final AuthMapper authMapper;
 
     @Transactional
     @PostMapping("/register")
@@ -36,6 +40,18 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(e.getErrors());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            String token = authService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            return ResponseEntity.ok(authMapper.toDto(token));
+        } catch (AuthException | NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
         }
     }
 

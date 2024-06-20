@@ -2,6 +2,7 @@ package io.kukua.springbootapi.auth;
 
 import io.kukua.springbootapi.role.Role;
 import io.kukua.springbootapi.role.RoleRepository;
+import io.kukua.springbootapi.security.TokenManager;
 import io.kukua.springbootapi.user.User;
 import io.kukua.springbootapi.user.UserRepository;
 import io.kukua.springbootapi.user.UserValidator;
@@ -20,6 +21,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final TokenManager tokenManager;
 
     public User register(User user) throws ValidationException, NoSuchElementException {
         userValidator.validateBeforeInsert(user);
@@ -28,6 +30,15 @@ public class AuthService {
         user.getAuthorities().add(defaultRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public String login(String username, String password) throws AuthException, NoSuchElementException {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return tokenManager.createToken(user.getId());
+        } else {
+            throw new AuthException();
+        }
     }
 
 }
