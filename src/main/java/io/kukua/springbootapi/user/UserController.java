@@ -22,7 +22,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    @Secured("ROLE_USER")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Set<UserData>> getAll(Pageable pageable) {
         Set<UserData> users = userService.getAll(pageable)
                 .stream()
