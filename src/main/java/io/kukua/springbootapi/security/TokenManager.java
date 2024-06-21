@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Component
 public class TokenManager {
@@ -17,9 +16,10 @@ public class TokenManager {
     @Value("${jwt.lifetime}")
     private Long lifetime;
 
-    public String createToken(UUID id) {
+    public String createToken(String username) {
         return JWT.create()
                 .withExpiresAt(new Date(System.currentTimeMillis() + lifetime))
+                .withClaim("username", username)
                 .sign(Algorithm.HMAC256(secret));
     }
 

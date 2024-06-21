@@ -35,7 +35,7 @@ public class AuthService {
     public String login(String username, String password) throws AuthException, NoSuchElementException {
         User user = userRepository.findByUsername(username).orElseThrow();
         if (passwordEncoder.matches(password, user.getPassword())) {
-            return tokenManager.createToken(user.getId());
+            return tokenManager.createToken(user.getUsername());
         } else {
             throw new AuthException();
         }
