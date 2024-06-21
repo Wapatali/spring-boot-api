@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final TokenFilter tokenFilter;
+    private final UnauthorizedHandler unauthorizedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,6 +32,7 @@ public class SecurityConfig {
         http.sessionManagement(configurer -> configurer
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling(configurer -> configurer.authenticationEntryPoint(unauthorizedHandler));
         return http.build();
     }
 
