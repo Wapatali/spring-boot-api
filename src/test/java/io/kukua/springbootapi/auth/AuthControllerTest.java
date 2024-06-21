@@ -4,16 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kukua.springbootapi.auth.dto.AuthMapper;
 import io.kukua.springbootapi.auth.dto.request.LoginRequest;
 import io.kukua.springbootapi.auth.dto.request.RegisterRequest;
-import io.kukua.springbootapi.security.SecurityConfig;
 import io.kukua.springbootapi.user.User;
 import io.kukua.springbootapi.user.dto.UserMapper;
 import io.kukua.springbootapi.validation.ValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,8 +21,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(SecurityConfig.class)
-@WebMvcTest(controllers = AuthController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class AuthControllerTest {
 
     @Autowired
