@@ -1,4 +1,4 @@
-package io.kukua.springbootapi.validation;
+package io.kukua.springbootapi.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package io.kukua.springbootapi.auth;
+package io.kukua.springbootapi.exception;
 
 /**
  * Exception wrapper for semantic purpose.

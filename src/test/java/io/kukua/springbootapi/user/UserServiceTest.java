@@ -1,6 +1,6 @@
 package io.kukua.springbootapi.user;
 
-import io.kukua.springbootapi.validation.ValidationException;
+import io.kukua.springbootapi.exception.ValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

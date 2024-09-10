@@ -3,7 +3,7 @@ package io.kukua.springbootapi.user;
 import io.kukua.springbootapi.user.dto.UserMapper;
 import io.kukua.springbootapi.user.dto.request.UpdateRequest;
 import io.kukua.springbootapi.user.dto.response.UserData;
-import io.kukua.springbootapi.validation.ValidationException;
+import io.kukua.springbootapi.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

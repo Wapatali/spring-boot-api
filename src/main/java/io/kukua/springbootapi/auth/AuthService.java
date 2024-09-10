@@ -1,11 +1,12 @@
 package io.kukua.springbootapi.auth;
 
+import io.kukua.springbootapi.exception.AuthException;
 import io.kukua.springbootapi.role.Role;
 import io.kukua.springbootapi.role.RoleRepository;
 import io.kukua.springbootapi.security.TokenManager;
 import io.kukua.springbootapi.user.User;
 import io.kukua.springbootapi.user.UserRepository;
-import io.kukua.springbootapi.validation.ValidationException;
+import io.kukua.springbootapi.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
