@@ -62,4 +62,15 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            userService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

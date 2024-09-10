@@ -43,6 +43,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(currentUser);
     }
 
+    public void delete(UUID id) throws NoSuchElementException {
+        // intent to delete a non-existent user throw an exception
+        User currentUser = userRepository.findById(id).orElseThrow();
+        userRepository.delete(currentUser);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
