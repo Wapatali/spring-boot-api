@@ -60,7 +60,7 @@ public class UserControllerTest {
         when(userService.getAll(any())).thenReturn(new HashSet<>());
         when(userMapper.toDto(any())).thenReturn(new UserData());
         mockMvc.perform(get("/users")
-                        .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
 

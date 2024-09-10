@@ -57,8 +57,8 @@ public class AuthControllerTest {
         when(userMapper.fromDto(any(RegisterRequest.class))).thenReturn(new User());
         when(authService.register(any())).thenReturn(new User());
         mockMvc.perform(post("/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new RegisterRequest())))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new RegisterRequest())))
                 .andExpect(status().isCreated());
     }
 
@@ -67,8 +67,8 @@ public class AuthControllerTest {
     public void login_withInvalidCredentials_shouldReturn401() throws Exception {
         when(authService.login(any(), any())).thenThrow(new AuthException());
         mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new LoginRequest())))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new LoginRequest())))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -77,8 +77,8 @@ public class AuthControllerTest {
     public void login_withValidCredentials_shouldReturn200() throws Exception {
         when(authService.login(any(), any())).thenReturn("");
         mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new LoginRequest())))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new LoginRequest())))
                 .andExpect(status().isOk());
     }
 
