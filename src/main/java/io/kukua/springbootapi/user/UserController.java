@@ -56,8 +56,7 @@ public class UserController {
             User updatedUser = userService.update(id, newUser);
             return ResponseEntity.ok(userMapper.toDto(updatedUser));
         } catch (ValidationException e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body(e.getErrors());
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getErrors());
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

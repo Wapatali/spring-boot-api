@@ -29,8 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated());
-        http.sessionManagement(configurer -> configurer
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling(configurer -> configurer.authenticationEntryPoint(unauthorizedHandler));
         return http.build();

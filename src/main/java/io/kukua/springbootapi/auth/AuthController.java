@@ -33,13 +33,9 @@ public class AuthController {
         try {
             User user = userMapper.fromDto(registerRequest);
             User newUser = authService.register(user);
-            return ResponseEntity
-                    .created(URI.create("/users/" + newUser.getId()))
-                    .build();
+            return ResponseEntity.created(URI.create("/users/" + newUser.getId())).build();
         } catch (ValidationException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body(e.getErrors());
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getErrors());
         }
     }
 
@@ -49,9 +45,7 @@ public class AuthController {
             String token = authService.login(loginRequest.getUsername(), loginRequest.getPassword());
             return ResponseEntity.ok(authMapper.toDto(token));
         } catch (AuthException | NoSuchElementException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
