@@ -43,7 +43,7 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Register with invalid body should return 422")
     public void register_withInvalidBody_shouldReturn422() throws Exception {
-        when(userMapper.fromDto(any())).thenReturn(new User());
+        when(userMapper.fromDto(any(RegisterRequest.class))).thenReturn(new User());
         when(authService.register(any())).thenThrow(new ValidationException(null));
         mockMvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Register with valid body should return 201")
     public void register_withValidBody_shouldReturn201() throws Exception {
-        when(userMapper.fromDto(any())).thenReturn(new User());
+        when(userMapper.fromDto(any(RegisterRequest.class))).thenReturn(new User());
         when(authService.register(any())).thenReturn(new User());
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
