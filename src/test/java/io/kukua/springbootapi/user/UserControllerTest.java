@@ -15,13 +15,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -129,6 +130,44 @@ public class UserControllerTest {
                 .content(objectMapper.writeValueAsString(userMock))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Delete with invalid token should return 401")
+    @WithAnonymousUser
+    public void delete_withInvalidToken_shouldReturn401() throws Exception {
+        mockMvc.perform(delete("/users/" + userMock.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("Delete with invalid role should return 403")
+    @WithMockUser(roles = "USER")
+    public void delete_withInvalidRole_shouldReturn403() throws Exception {
+        mockMvc.perform(delete("/users/" + userMock.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("Delete with invalid id should return 404")
+    @WithMockUser(roles = "ADMIN")
+    public void delete_withInvalidId_shouldReturn404() throws Exception {
+        doThrow(NoSuchElementException.class).when(userService).delete(any());
+        mockMvc.perform(delete("/users/" + userMock.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Delete with valid id should return 204")
+    @WithMockUser(roles = "ADMIN")
+    public void delete_withValidId_shouldReturn204() throws Exception {
+        when(userService.getById(any())).thenReturn(Optional.of(userMock));
+        mockMvc.perform(delete("/users/" + userMock.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     private User getUser() {
