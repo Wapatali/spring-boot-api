@@ -1,3 +1,6 @@
+![GitHub branch check runs](https://img.shields.io/github/check-runs/Wapatali/spring-boot-api/main?style=for-the-badge)
+![GitHub License](https://img.shields.io/github/license/Wapatali/spring-boot-api?style=for-the-badge)
+
 # About
 
 This is a small API built with _Spring Boot_ (version 3.3.0) that lets you manage users using _Json Web Tokens_ as an authentication and authorisation system.
